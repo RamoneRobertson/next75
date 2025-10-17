@@ -1,5 +1,6 @@
 -- Configure enums
 CREATE TYPE goal_type AS ENUM ('LOSS', 'GAIN', 'MAINTAIN');
+CREATE TYPE gender_type AS ENUM('MALE', 'FEMALE', 'NONE');
 
 -- Ensure the 'users' table exists
 CREATE TABLE IF NOT EXISTS users (
@@ -7,7 +8,7 @@ CREATE TABLE IF NOT EXISTS users (
     name            VARCHAR(255)                              NOT NULL,
     email           VARCHAR(255)    UNIQUE                    NOT NULL,
     password        VARCHAR(255)                              NOT NULL,
-    gender          VARCHAR(10)                               NOT NULL ,
+    gender          gender_type                               NOT NULL ,
     calorie_limit   BIGINT                                    NULL,
     streak          BIGINT                                    NULL ,
     current_weight  DECIMAL(5, 2)                             NOT NULL ,
