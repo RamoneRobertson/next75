@@ -14,10 +14,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    database-platform: org.hibernate.dialect.H2Dialect
+#    database-platform: org.hibernate.dialect.H2Dialect
     show-sql: true
   sql:
     init:
-      mode: never
+      mode: always
 server:
   port: 8009
