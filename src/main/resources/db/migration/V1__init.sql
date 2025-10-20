@@ -1,73 +1,72 @@
 -- -- Configure enums
--- CREATE TYPE IF NOT EXISTS goal_type AS ENUM ('LOSS', 'GAIN', 'MAINTAIN');
--- CREATE TYPE IF NOT EXISTS gender_type AS ENUM('MALE', 'FEMALE', 'NONE');
+CREATE TYPE goal_type AS ENUM ('LOSS', 'GAIN', 'MAINTAIN');
+CREATE TYPE gender_type AS ENUM('MALE', 'FEMALE', 'NONE');
 
 -- Ensure the 'users' table exists
 CREATE TABLE IF NOT EXISTS users (
-    id UUID PRIMARY KEY,
-    name            VARCHAR(255)                              NOT NULL,
-    email           VARCHAR(255)    UNIQUE                    NOT NULL,
-    password        VARCHAR(255)                              NOT NULL,
-    gender          gender_type                               NOT NULL,
-    birthdate       DATE                                      NOT NULL,
-    calorie_limit   BIGINT                                    NULL,
-    streak          BIGINT                                    NULL ,
-    current_weight  DECIMAL(5, 2)                             NOT NULL ,
-    target_weight   DECIMAL(5, 2)                             NOT NULL,
-    height          DECIMAL(5, 2)                             NOT NULL,
-    goal            goal_type                                 NOT NULL,
-    created_at TIMESTAMP       DEFAULT CURRENT_TIMESTAMP NOT NULL ,
-    updated_at  TIMESTAMP       DEFAULT CURRENT_TIMESTAMP NOT NULL
+                                     id UUID PRIMARY KEY,
+                                     name            VARCHAR(255)                              NOT NULL,
+                                     email           VARCHAR(255)    UNIQUE                    NOT NULL,
+                                     password        VARCHAR(255)                              NOT NULL,
+                                     gender          gender_type                               NOT NULL,
+                                     birthdate       DATE                                      NOT NULL,
+                                     calorie_limit   BIGINT                                    NULL,
+                                     streak          BIGINT                                    NULL ,
+                                     current_weight  DECIMAL(5, 2)                             NOT NULL ,
+                                     target_weight   DECIMAL(5, 2)                             NOT NULL,
+                                     height          DECIMAL(5, 2)                             NOT NULL,
+                                     goal            goal_type                                 NOT NULL,
+                                     created_at TIMESTAMP       DEFAULT CURRENT_TIMESTAMP NOT NULL ,
+                                     updated_at  TIMESTAMP       DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 -- Create a task_list table
 CREATE TABLE IF NOT EXISTS  task_list (
-    id UUID PRIMARY KEY,
-    user_id UUID NOT NULL,
-    title VARCHAR(255) DEFAULT('75 Hard') NOT NULL,
-    start_date DATE DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    created_at      TIMESTAMP       DEFAULT CURRENT_TIMESTAMP NOT NULL ,
-    updated_at      TIMESTAMP       DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    CONSTRAINT task_list_users_id_fk
-        FOREIGN KEY (user_id) REFERENCES  users (id)
+                                          id UUID PRIMARY KEY,
+                                          user_id UUID NOT NULL,
+                                          title VARCHAR(255) DEFAULT('75 Hard') NOT NULL,
+                                          start_date DATE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                                          created_at      TIMESTAMP       DEFAULT CURRENT_TIMESTAMP NOT NULL ,
+                                          updated_at      TIMESTAMP       DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                                          CONSTRAINT task_list_users_id_fk
+                                              FOREIGN KEY (user_id) REFERENCES  users (id)
 );
 
 -- Create a Tasks table
 CREATE TABLE IF NOT EXISTS tasks(
-    id BIGINT PRIMARY KEY,
-    list_id UUID NOT NULL ,
-    title VARCHAR(255) NOT NULL,
-    description TEXT NULL,
-    is_completed BOOLEAN DEFAULT false,
-    completed_at TIMESTAMP NULL,
-    created_at      TIMESTAMP       DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at      TIMESTAMP       DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    CONSTRAINT  tasks_task_list_id_fk
-        FOREIGN KEY (list_id) REFERENCES task_list (id)
+                                    id BIGINT PRIMARY KEY,
+                                    list_id UUID NOT NULL ,
+                                    title VARCHAR(255) NOT NULL,
+                                    description TEXT NULL,
+                                    is_completed BOOLEAN DEFAULT false,
+                                    completed_at TIMESTAMP NULL,
+                                    created_at      TIMESTAMP       DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                                    updated_at      TIMESTAMP       DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                                    CONSTRAINT  tasks_task_list_id_fk
+                                        FOREIGN KEY (list_id) REFERENCES task_list (id)
 );
 
 -- Create Meals Table
 CREATE TABLE IF NOT EXISTS meals(
-    id BIGINT PRIMARY KEY,
-    user_id UUID NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    calories DECIMAL(5, 2),
-    created_at TIMESTAMP DEFAULT  CURRENT_TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP DEFAULT  CURRENT_TIMESTAMP NOT NULL
+                                    id BIGINT PRIMARY KEY,
+                                    user_id UUID NOT NULL,
+                                    name VARCHAR(255) NOT NULL,
+                                    calories DECIMAL(5, 2),
+                                    created_at TIMESTAMP DEFAULT  CURRENT_TIMESTAMP NOT NULL,
+                                    updated_at TIMESTAMP DEFAULT  CURRENT_TIMESTAMP NOT NULL
 
 );
 
-
 -- Create Photos table
 CREATE TABLE IF NOT EXISTS photos(
-    id UUID NOT NULL,
-    user_id UUID NOT NULL,
-    url VARCHAR(255) NOT NULL,
-    upload_date DATE DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    created_at TIMESTAMP DEFAULT  CURRENT_TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP DEFAULT  CURRENT_TIMESTAMP NOT NULL,
-    CONSTRAINT photos_users_id_fk
-        FOREIGN KEY (user_id) REFERENCES users (id)
+                                     id UUID NOT NULL,
+                                     user_id UUID NOT NULL,
+                                     url VARCHAR(255) NOT NULL,
+                                     upload_date DATE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                                     created_at TIMESTAMP DEFAULT  CURRENT_TIMESTAMP NOT NULL,
+                                     updated_at TIMESTAMP DEFAULT  CURRENT_TIMESTAMP NOT NULL,
+                                     CONSTRAINT photos_users_id_fk
+                                         FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
 -- Insert User Records
