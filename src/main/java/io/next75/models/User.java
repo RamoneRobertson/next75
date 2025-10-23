@@ -3,9 +3,10 @@ package io.next75.models;
 import io.next75.enums.Gender;
 import io.next75.enums.Goal;
 import jakarta.persistence.*;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import lombok.*;
-import org.springframework.data.relational.core.mapping.Table;
+
 
 
 import java.math.BigDecimal;
@@ -35,10 +36,11 @@ public class User {
   private String password;
 
   @Column(name = "gender")
+  @Enumerated(EnumType.STRING)
   private Gender gender;
 
   @Column(name = "birthdate")
-  private Date birthDate;
+  private Date birthdate;
 
   @Column(name = "current_weight")
   private BigDecimal currentWeight;
@@ -56,17 +58,18 @@ public class User {
   private int streak;
 
   @Column(name = "goal")
-  private Goal goalType;
+  @Enumerated(EnumType.STRING)
+  private Goal goal;
 
   @OneToMany(mappedBy = "user")
   private List<TaskList> taskLists;
 
 
   @Column(name = "created_at")
-  private Instant createdAt;
+  private Instant createdAt = Instant.now();
 
   @Column(name = "updated_at")
-  private Instant updatedAt;
+  private Instant updatedAt = Instant.now();
 
   public void onCreate(){
     this.createdAt = Instant.now();
